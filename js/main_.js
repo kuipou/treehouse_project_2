@@ -16,33 +16,24 @@ function init() {
     DOMstrings = {
         studentContainer: ".student-list",
         studentItem: ".student-item",
-
+        paginationList: ".pagination ul li a"
     };
 }
 
 init();
 
 
-var testarr = [];
-for (let i = 0; i < 54; i++) {
-    testarr.push(i);
-}
-
-// for the current page ex 6 -1 =5 * the number of items is our counter
-for (i = (currentPage - 1) * maxItems; i < currentPage * maxItems; i++) {
-    if (i < testarr.length) {
-        console.log(testarr[i]);
-    }
-}
 function activePage(current) {
     let activePagination = document.querySelectorAll(".pagination ul li a");
 
     for (let i = 0; i <= activePagination.length; i++) {
-        console.log(activePagination[i]);
+    //    loop through the .pagination ul li a then remove every active found
         if (activePagination[i].classList.contains("active")) {
-            console.log("was true add active");
+            console.log("was true added active");
             activePagination[i].classList.remove("active");
         }
+        // Because the Array is 0 based Current page - 1 will = index
+        // We add active to the to the current page
         activePagination[current - 1].classList.add("active");
     }
 }
@@ -54,13 +45,6 @@ studentList = [].slice.call(document.querySelectorAll(DOMstrings.studentItem));
 totalPages = Math.ceil(studentList.length / maxItems);
 
 
-// function showPage(/* arguments here for page number and student list */) {
-//     // first hide all students on the page
-//     // Then loop through all students in our student list argument
-//     // if student should be on this page number
-//     // show the student
-// }
-
 function showPage(current, stdent) {
     console.log(DOMstrings.studentContainer);
     // go fetch the container
@@ -69,11 +53,11 @@ function showPage(current, stdent) {
     // empty the list
     innerList.innerHTML = "";
     console.log(innerList);
-    // Loop through
-    // console.log(Array.isArray(studentList));
 
+    // Loop through
+    // for the current page ex 6 -1 =5 * the number of items is our counter
     for (i = (current - 1) * maxItems; i < current * maxItems; i++) {
-        if (i < testarr.length) {
+        if (i < stdent.length) {
             innerList.append(stdent[i]);
         }
     }
@@ -82,7 +66,7 @@ function showPage(current, stdent) {
 function pagination() {
     let pagination = document.createElement('div');
     pagination.className = "pagination";
-    // let paginationList = document.createElement('ul');
+    let paginationList = document.createElement('ul');
     let paginationLi = "";
 
     for (let pages = 1; pages <= totalPages; pages++) {
@@ -96,40 +80,20 @@ function pagination() {
     var pgni = document.querySelectorAll(".pagination ul li a");
 
     for (let i = 0; i < totalPages; i++) {
-        // if 
-        console.log("item contains active : " + pgni[i].classList.contains("active"));
 
         pgni[i].addEventListener("click", function (event) {
-            // remove once to make sure that theres no active class
-            console.log("li was clicked with a target of " + event.target.textContent);
-            console.log("clicked " + parseInt(event.target.parentNode.className));
+            //  active page throws an error but it dosen't affect anything though might be
+            // the fact it can't find the same active class after live adding
             showPage(parseInt(event.target.textContent), studentList);
-            activePage(parseInt(event.target.textContent);
+            activePage(parseInt(event.target.textContent) );
 
         });
     }
-    // document.querySelector(".pagination ul li a").addEventListener("click", function (event) {
-    //     console.log("li was clicked with a target of " + event.target.innerHTML);
-    //     console.log("clicked");
-    // });
 
 
 
 }
 pagination();
-
-function appendPageLinks(/* take a student list as an argument */) {
-    // determine how many pages for this student list 
-    // create a page link section
-    // “for” every page
-    // add a page link to the page link section
-    // remove the old page link section from the site
-    // append our new page link section to the site
-    // define what happens when you click a link
-    // Use the showPage function to display the page for the link clicked
-    // mark that link as “active”
-}
-
 
 showPage(1, studentList);
 console.log(`The total pages is ${totalPages}`);
